@@ -1,0 +1,32 @@
+h1= title
+p Welcome to #{title}
+
+fieldset
+  legend Add Media
+  form(method="post", action="/new", enctype="multipart/form-data")
+    .clearfix
+      label Name
+      .input: input(name="name", type="text")
+    .clearfix
+      label File
+      .input: input(type="file", name="file")
+    .actions
+    input.btn(type="submit")
+
+table.zebra-striped.bordered-table
+  thead
+    tr
+      th Name
+      th Filename
+      th Type
+      th Upload Date
+  - each dude in dudes
+    tr
+      td= dude.name
+      td
+        a(href="/file/#{dude.files[0]._id}")=dude.files[0].filename
+      td= dude.files[0].contentType
+      td= dude.files[0].uploadDate
+
+
+
