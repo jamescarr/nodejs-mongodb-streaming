@@ -16,12 +16,17 @@ fieldset
 table.zebra-striped.bordered-table
   thead
     tr
+      th &nbsp;
       th Name
       th Filename
       th Type
       th Upload Date
   - each dude in dudes
     tr
+      td
+        form(action="/file/#{dude.files[0]._id}", method="post")
+          input(type="hidden", name="_method", value="delete")
+          .input: input.btn(type="submit", value="delete")
       td= dude.name
       td
         a(href="/file/#{dude.files[0]._id}")=dude.files[0].filename
