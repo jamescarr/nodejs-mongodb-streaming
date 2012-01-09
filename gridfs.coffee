@@ -35,23 +35,6 @@ exports.putFile = (path, name, options, fn) ->
     return fn(err)  if err
     file.writeFile path, fn
 
-exports.deleteFile = (id, fn) ->
-  db = mongoose.connection.db
-  id = new ObjectID(id)
-  db.open (err, db) ->
-    db.collection 'fs.files', (err, files) ->
-      files.findOne _id:id, (err, file) ->
-        console.log "deleting the file '#{file.filename}'"
-        db.collection 'fs.files', (err, files) ->
-          files.count (err, count) ->
-            console.log "The count is #{count}"
-        GridStore.unlink db, file.filename, {root:'fs'}, (err, gs) ->
-          db.collection 'fs.files', (err, files) ->
-            files.count (err, count) ->
-              console.log "The count is #{count}"
-          console.log "DELETED!"
-          fn(null, file)
-
 parse = (options) ->
   opts = {}
   if options.length > 0

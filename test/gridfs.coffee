@@ -9,18 +9,6 @@ GridStore = mongoose.mongo.GridStore
 describe "GridFS", ->
   before (done) ->
     mongoose.connect "mongodb://localhost/gridfs-test", done
-  describe 'delete', ->
-    id = ''
-    before (done) ->
-      gridfs.put new Buffer("Hello World"), "hello_world.zip", (err, result) ->
-        id = result.fileId+""
-        done()
-    it 'should delete the file', (done) ->
-      gridfs.deleteFile id, (err, result)->
-        gridfs.get id, (err, store) ->
-          store.should.equal null
-          done()
-
   describe "put/get", ->
     describe "without options", ->
       id = ''
@@ -28,9 +16,6 @@ describe "GridFS", ->
         gridfs.put new Buffer("Hello World"), "hello_world.txt", (err, result) ->
           id = result.fileId+""
           done()
-
-      after (done) ->
-        gridfs.deleteFile id, done
 
       it "should store store contents", (done) ->
         gridfs.get id, (err, store) ->
@@ -58,4 +43,4 @@ describe "GridFS", ->
             id = "#{result.fileId}"
             gridfs.get id, (err, store) ->
               store.contentType.should.equal "text/plain"
-              gridfs.deleteFile id, done
+              done()

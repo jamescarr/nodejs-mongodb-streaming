@@ -16,36 +16,30 @@ app.configure ->
     showStack: true
   )
 
-DudeSchema = new mongoose.Schema(
+ApplicationSchema = new mongoose.Schema(
   name: String
   files: [ mongoose.Schema.Mixed ]
 )
-DudeSchema.methods.addFile = (file, options, fn) ->
-  dude = this
+ApplicationSchema.methods.addFile = (file, options, fn) ->
+  application = this
   gridfs.putFile file.path, file.filename, options, (err, result) ->
-    dude.files.push result
-    dude.save fn
+    application.files.push result
+    application.save fn
 
-Dude = mongoose.model("Dude", DudeSchema)
+Application = mongoose.model("application", applicationSchema)
 app.get "/", (req, res) ->
-  Dude.find {}, (err, dudes) ->
+  Application.find {}, (err, applications) ->
     res.render "index",
       title: "GridFS Example"
-      dudes: dudes
+      applications: applications
 
 app.post "/new", (req, res) ->
-  dude = new Dude()
-  dude.name = req.body.name
+  application = new Application()
+  application.name = req.body.name
   opts = 
     content_type: req.files.file.type
-  dude.addFile req.files.file, opts, (err, result) ->
+  application.addFile req.files.file, opts, (err, result) ->
     res.redirect "/"
-
-app.delete "/file/:id", (req, res) ->
-  gridfs.deleteFile "#{req.params.id}", (err, file) ->
-    console.log err
-    console.log file
-    res.redirect '/'
 
 app.get "/file/:id", (req, res) ->
   gridfs.get req.params.id, (err, file) ->
