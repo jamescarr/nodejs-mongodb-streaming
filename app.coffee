@@ -26,7 +26,7 @@ ApplicationSchema.methods.addFile = (file, options, fn) ->
     application.files.push result
     application.save fn
 
-Application = mongoose.model("application", applicationSchema)
+Application = mongoose.model("application", ApplicationSchema)
 app.get "/", (req, res) ->
   Application.find {}, (err, applications) ->
     res.render "index",
