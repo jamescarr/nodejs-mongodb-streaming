@@ -5,12 +5,12 @@
   , "dependencies": {
       "express": "2.5.4"
     , "jade": ">= 0.0.1"
-    , "mongoose": "2.4.1"
+    , "mongoose": "5.7.7"
     , "mongodb": ">=*"
     , "request": "2.9.3"
   }
   , "devDependencies":{
-      "mongoose": "2.4.1"
+      "mongoose": "5.7.7"
     , "should" : "0.3.x"
     , "mocha"  : ">=0.7.0"
     , "buffertools"  : "1.0.6"
